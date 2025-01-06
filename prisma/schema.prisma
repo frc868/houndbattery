@@ -14,8 +14,7 @@ datasource db {
 }
 
 model Battery {
-  id        Int       @id @default(autoincrement())
-  name      String    @unique
-  status    String    @default("OUT") // 'IN' or 'OUT'
-  updatedAt DateTime  @updatedAt
+  id     Int     @id @default(autoincrement())
+  name   String  @unique
+  status String
 }

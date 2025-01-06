@@ -1,7 +1,5 @@
-// app/api/toggleBattery/route.ts
-
-import prisma from '@/lib/prisma'; // Import Prisma Client
 import { NextResponse } from 'next/server';
+import prisma from '@/lib/prisma'; // Import Prisma Client
 
 export async function POST(request: Request) {
   const { batteryName } = await request.json();
