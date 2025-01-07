@@ -93,7 +93,7 @@ const BatteryScannerPage: React.FC = () => {
           </thead>
           <tbody>
             {batteries.map((battery) => (
-              <tr key={battery.id}>
+              <tr key={battery.id} className={battery.status === 'IN' ? 'battery-in' : 'battery-out'}>
                 <td>{battery.name}</td>
                 <td>{battery.status}</td>
                 <td>{battery.lastCheckedIn ? new Date(battery.lastCheckedIn).toLocaleString() : 'N/A'}</td>

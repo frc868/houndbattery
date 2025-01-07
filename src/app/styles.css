@@ -1,5 +1,5 @@
 body {
-  background-color: #121212;
+  background-color: #121212; /* Dark color for background */
   margin: 0;
   font-family: Arial, sans-serif;
   display: flex;
@@ -22,8 +22,8 @@ input[type="text"] {
 .battery-table {
   border-collapse: collapse;
   margin-top: 20px;
-  margin-right: auto;
-  margin-left: 50px;
+  margin-left: -10px;
+  width: 60%; /* Make the table take up the full width of the container */
 }
 
 .battery-table th,
@@ -39,6 +39,14 @@ input[type="text"] {
   color: rgb(240, 204, 48);
 }
 
+.battery-in {
+  background-color: #32CD32; /* Green color */
+}
+
+.battery-out {
+  background-color: #FF6347; /* Red color */
+}
+
 h1 {
   text-align: center;
   color: rgb(240, 204, 48);
@@ -51,8 +59,6 @@ h1 {
 }
 
 .table-container {
-  display: inline-block;
-  position: absolute;
-  right: 50%;
-  transform: translateX(50%);
+  width: 80%; /* Adjust this value to change the width of the table container */
+  margin-left: 50px; /* Adjust this value to move the table further left or right */
 }
