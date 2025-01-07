@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Battery" ADD COLUMN     "lastCheckedIn" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP;

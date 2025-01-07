@@ -14,7 +14,8 @@ datasource db {
 }
 
 model Battery {
-  id     Int     @id @default(autoincrement())
-  name   String  @unique
-  status String
+  id            Int       @id @default(autoincrement())
+  name          String    @unique
+  status        String
+  lastCheckedIn DateTime? @default(now())
 }

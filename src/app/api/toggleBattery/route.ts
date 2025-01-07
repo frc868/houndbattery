@@ -18,9 +18,13 @@ export async function POST(request: Request) {
   }
 
   // Toggle the battery status
+  const newStatus = battery.status === 'OUT' ? 'IN' : 'OUT';
   const updatedBattery = await prisma.battery.update({
     where: { name: batteryName },
-    data: { status: battery.status === 'OUT' ? 'IN' : 'OUT' },
+    data: {
+      status: newStatus,
+      lastCheckedIn: newStatus === 'IN' ? new Date() : battery.lastCheckedIn,
+    },
   });
 
   return NextResponse.json(updatedBattery);

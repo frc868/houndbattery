@@ -1,15 +1,17 @@
 'use client'; // To indicate the component is client-side rendered
 
 import React, { useState, useEffect } from 'react';
+import './styles.css'; // Import the CSS file
 
 // Define the type for the battery objects
 interface Battery {
   id: number;
   name: string;
   status: string;
+  lastCheckedIn?: string;
 }
 
-const BatteryScannerPage = () => {
+const BatteryScannerPage: React.FC = () => {
   const [batteryName, setBatteryName] = useState('');
   const [batteries, setBatteries] = useState<Battery[]>([]);
 
@@ -18,7 +20,13 @@ const BatteryScannerPage = () => {
     const fetchBatteries = async () => {
       const response = await fetch('/api/batteries');
       const data = await response.json();
-      setBatteries(data);
+      // Sort batteries numerically based on their names
+      const sortedBatteries = data.sort((a: Battery, b: Battery) => {
+        const nameA = parseInt(a.name.replace(/\D/g, ''));
+        const nameB = parseInt(b.name.replace(/\D/g, ''));
+        return nameA - nameB;
+      });
+      setBatteries(sortedBatteries);
     };
 
     fetchBatteries();
@@ -39,11 +47,18 @@ const BatteryScannerPage = () => {
 
     if (response.ok) {
       const updatedBattery = await response.json();
-      setBatteries((prevBatteries) =>
-        prevBatteries.map((battery) =>
+      setBatteries((prevBatteries) => {
+        const updatedBatteries = prevBatteries.map((battery) =>
           battery.name === updatedBattery.name ? updatedBattery : battery
-        )
-      );
+        );
+        // Sort batteries numerically based on their names
+        return updatedBatteries.sort((a, b) => {
+          const nameA = parseInt(a.name.replace(/\D/g, ''));
+          const nameB = parseInt(b.name.replace(/\D/g, ''));
+          return nameA - nameB;
+        });
+      });
+      setBatteryName(''); // Clear the search bar
     } else {
       alert('Something went wrong while toggling the battery status.');
     }
@@ -61,11 +76,12 @@ const BatteryScannerPage = () => {
         />
         <button onClick={handleScan}>Scan Battery</button>
       </div>
-      <table>
+      <table className="battery-table">
         <thead>
           <tr>
             <th>Battery</th>
             <th>Status</th>
+            <th>Last Checked In</th>
           </tr>
         </thead>
         <tbody>
@@ -73,6 +89,7 @@ const BatteryScannerPage = () => {
             <tr key={battery.id}>
               <td>{battery.name}</td>
               <td>{battery.status}</td>
+              <td>{battery.lastCheckedIn ? new Date(battery.lastCheckedIn).toLocaleString() : 'N/A'}</td>
             </tr>
           ))}
         </tbody>
