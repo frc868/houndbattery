@@ -1,7 +1,7 @@
 'use client'; // To indicate the component is client-side rendered
 
 import React, { useState, useEffect } from 'react';
-import './styles.css'; // Import the CSS file
+import './styles.css'; // Correct the import path to the CSS file
 
 // Define the type for the battery objects
 interface Battery {
@@ -64,36 +64,44 @@ const BatteryScannerPage: React.FC = () => {
     }
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleScan();
+    }
+  };
+
   return (
-    <div>
+    <div className="container">
       <h1>Battery Scanner</h1>
       <div>
         <input
           type="text"
           value={batteryName}
           onChange={(e) => setBatteryName(e.target.value)}
+          onKeyDown={handleKeyDown}
           placeholder="Enter battery name"
         />
-        <button onClick={handleScan}>Scan Battery</button>
       </div>
-      <table className="battery-table">
-        <thead>
-          <tr>
-            <th>Battery</th>
-            <th>Status</th>
-            <th>Last Checked In</th>
-          </tr>
-        </thead>
-        <tbody>
-          {batteries.map((battery) => (
-            <tr key={battery.id}>
-              <td>{battery.name}</td>
-              <td>{battery.status}</td>
-              <td>{battery.lastCheckedIn ? new Date(battery.lastCheckedIn).toLocaleString() : 'N/A'}</td>
+      <div className="table-container">
+        <table className="battery-table">
+          <thead>
+            <tr>
+              <th>Battery</th>
+              <th>Status</th>
+              <th>Last Checked In</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {batteries.map((battery) => (
+              <tr key={battery.id}>
+                <td>{battery.name}</td>
+                <td>{battery.status}</td>
+                <td>{battery.lastCheckedIn ? new Date(battery.lastCheckedIn).toLocaleString() : 'N/A'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

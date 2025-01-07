@@ -1,13 +1,29 @@
 body {
-  background-color: #121212; /* Blue color */
+  background-color: #121212;
   margin: 0;
   font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+}
+
+input[type="text"] {
+  width: 300px;
+  padding: 10px;
+  border-radius: 13px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  font-size: 16px;
+  text-align: center;
 }
 
 .battery-table {
-  width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
+  margin-right: auto;
+  margin-left: 50px;
 }
 
 .battery-table th,
@@ -21,4 +37,22 @@ body {
 .battery-table th {
   background-color: #121212;
   color: rgb(240, 204, 48);
+}
+
+h1 {
+  text-align: center;
+  color: rgb(240, 204, 48);
+}
+
+.container {
+  text-align: center;
+  width: 100%;
+  position: relative;
+}
+
+.table-container {
+  display: inline-block;
+  position: absolute;
+  right: 50%;
+  transform: translateX(50%);
 }
