@@ -96,6 +96,7 @@ const BatteryScannerPage: React.FC = () => {
   return (
     <div className="container">
       <h1>Battery Scanner</h1>
+      <h2 className="best-battery-title">Best Battery to Use</h2> {/* Add the best battery title */}
       <div>
         <h2>{currentTime.toLocaleTimeString()}</h2>
         <input
@@ -128,7 +129,6 @@ const BatteryScannerPage: React.FC = () => {
       </div>
       <BatteryCycleChart cycles={cycleCounts} batteryNames={batteryNames} /> {/* Add the BatteryCycleChart component */}
       <div className="best-battery">
-        <h2>Best Battery to Use</h2>
         <p className="best-battery-name">{bestBattery}</p>
       </div>
     </div>

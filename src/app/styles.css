@@ -1,5 +1,5 @@
 body {
-  background-color: #1E1E1E; /* Dark color for background */
+  background-color: #1e1e1e; /* Dark color for background */
   margin: 0;
   font-family: Arial, sans-serif;
   display: flex;
@@ -45,11 +45,11 @@ input[type="text"] {
 }
 
 .battery-in {
-  background-color: #175a17; /* Green color */
+  background-color: #32CD32; /* Green color */
 }
 
 .battery-out {
-  background-color: #58231a; /* Red color */
+  background-color: #FF6347; /* Red color */
 }
 
 h1 {
@@ -78,31 +78,32 @@ h2 {
 
 .chart-container {
   position: absolute;
-  bottom: -180px; /* Adjust this value to move the chart further up or down */
-  right: 120px;
-  width: 455px;
-  height: 400px;
+  bottom: -183px; /* Adjust this value to move the chart further up or down */
+  right: 120px; /* Adjust this value to move the chart further left or right */
+  width: 455px; /* Adjust width as needed */
+  height: 400px; /* Adjust height as needed */
+}
+
+.best-battery-title {
+  text-align: center;
+  color: rgb(240, 204, 48);
+  position: absolute; /* Make the title absolutely positioned */
+  top: 180px; /* Adjust the top value to move the title up or down */
+  right: 225px; /* Adjust the right value to move the title left or right */
+  z-index: 1;
 }
 
 .best-battery {
   position: absolute;
   top: 190px; /* Position at the top right */
   right: 130px; /* Position at the top right */
+  width: 250px;
+  height: 90px;
   text-align: center;
   background-color: #121212; /* Match the background color */
   padding: 80px;
   border-radius: 10px;
   border: 2px solid rgb(240, 204, 48); /* Gold outline */
-}
-
-.best-battery h2 {
-  margin: 0;
-  font-size: 30px;
-  color: rgb(240, 204, 48);
-  padding-bottom: 5px;
-  border-radius: 10px;
-  border: 2px solid rgb(240, 204, 48);
-  position: relative;
 }
 
 .best-battery-name {
