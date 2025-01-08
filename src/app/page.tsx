@@ -2,18 +2,22 @@
 
 import React, { useState, useEffect } from 'react';
 import './styles.css'; // Correct the import path to the CSS file
+import BatteryCycleChart from './BatteryCycleChart'; // Import the BatteryCycleChart component
 
 // Define the type for the battery objects
 interface Battery {
   id: number;
   name: string;
+  name2: string;
   status: string;
   lastCheckedIn?: string;
+  cycles: number; // Ensure cycles field is included
 }
 
 const BatteryScannerPage: React.FC = () => {
   const [batteryName, setBatteryName] = useState('');
   const [batteries, setBatteries] = useState<Battery[]>([]);
+  const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
     // Fetch all batteries on component mount
@@ -30,6 +34,14 @@ const BatteryScannerPage: React.FC = () => {
     };
 
     fetchBatteries();
+
+    // Update the current time every second
+    const intervalId = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(intervalId);
   }, []);
 
   const handleScan = async () => {
@@ -49,7 +61,7 @@ const BatteryScannerPage: React.FC = () => {
       const updatedBattery = await response.json();
       setBatteries((prevBatteries) => {
         const updatedBatteries = prevBatteries.map((battery) =>
-          battery.name === updatedBattery.name ? updatedBattery : battery
+          battery.name2 === updatedBattery.name2 ? updatedBattery : battery
         );
         // Sort batteries numerically based on their names
         return updatedBatteries.sort((a, b) => {
@@ -70,10 +82,15 @@ const BatteryScannerPage: React.FC = () => {
     }
   };
 
+  // Extract cycle counts and names for the chart
+  const cycleCounts = batteries.map((battery) => battery.cycles);
+  const batteryNames = batteries.map((battery) => battery.name);
+
   return (
     <div className="container">
       <h1>Battery Scanner</h1>
       <div>
+        <h2>{currentTime.toLocaleTimeString()}</h2>
         <input
           type="text"
           value={batteryName}
@@ -102,6 +119,7 @@ const BatteryScannerPage: React.FC = () => {
           </tbody>
         </table>
       </div>
+      <BatteryCycleChart cycles={cycleCounts} batteryNames={batteryNames} /> {/* Add the BatteryCycleChart component */}
     </div>
   );
 };

@@ -7,13 +7,16 @@ body {
   align-items: center;
   height: 100vh;
   flex-direction: column;
+  overflow: hidden; /* Prevent overflow */
 }
 
 input[type="text"] {
   width: 300px;
   padding: 10px;
   border-radius: 13px;
-  border: 1px solid #ccc;
+  border: 2px solid rgb(240, 204, 48); /* Gold outline */
+  background-color: #121212; /* Dark background */
+  color: rgb(240, 204, 48); /* Gold text */
   margin-bottom: 20px;
   font-size: 16px;
   text-align: center;
@@ -24,12 +27,14 @@ input[type="text"] {
   margin-top: 20px;
   margin-left: -10px;
   width: 60%; /* Make the table take up the full width of the container */
+  border-radius: 13px; /* Add curved corners to the table */
+  overflow: hidden; /* Ensure the corners are visible */
 }
 
 .battery-table th,
 .battery-table td {
-  border: 1px solid #ddd;
-  color: rgb(240, 204, 48);
+  border: 1px solid #121212;
+  color: #121212;
   padding: 8px;
   text-align: center;
 }
@@ -40,16 +45,24 @@ input[type="text"] {
 }
 
 .battery-in {
-  background-color: #32CD32; /* Green color */
+  background-color: #1e6d1e; /* Green color */
 }
 
 .battery-out {
-  background-color: #FF6347; /* Red color */
+  background-color: #68291e; /* Red color */
 }
 
 h1 {
   text-align: center;
   color: rgb(240, 204, 48);
+  position: relative;
+  margin-bottom: 20px; /* Add spacing below the title */
+}
+
+h2 {
+  text-align: center;
+  color: rgb(240, 204, 48);
+  margin-bottom: 20px; /* Add spacing below the time */
 }
 
 .container {
@@ -61,4 +74,12 @@ h1 {
 .table-container {
   width: 80%; /* Adjust this value to change the width of the table container */
   margin-left: 50px; /* Adjust this value to move the table further left or right */
+}
+
+.chart-container {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 300px; /* Adjust width as needed */
+  height: 200px; /* Adjust height as needed */
 }

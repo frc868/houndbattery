@@ -8,22 +8,23 @@ export async function POST(request: Request) {
     return NextResponse.json({ message: 'Battery name is required' }, { status: 400 });
   }
 
-  // Find the battery by name
-  const battery = await prisma.battery.findUnique({
-    where: { name: batteryName },
+  // Find the battery by name2
+  const battery = await prisma.battery.findFirst({
+    where: { name2: batteryName },
   });
 
   if (!battery) {
     return NextResponse.json({ message: 'Battery not found' }, { status: 404 });
   }
 
-  // Toggle the battery status
+  // Toggle the battery status and increment cycles if scanning IN
   const newStatus = battery.status === 'OUT' ? 'IN' : 'OUT';
   const updatedBattery = await prisma.battery.update({
-    where: { name: batteryName },
+    where: { id: battery.id },
     data: {
       status: newStatus,
       lastCheckedIn: newStatus === 'IN' ? new Date() : battery.lastCheckedIn,
+      cycles: newStatus === 'IN' ? { increment: 1 } : battery.cycles,
     },
   });
 
