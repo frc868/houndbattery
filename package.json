@@ -10,7 +10,7 @@
     "seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
-    "@prisma/client": "^6.2.0",
+    "@prisma/client": "^6.2.1",
     "chart.js": "^4.4.7",
     "dotenv": "^16.4.7",
     "next": "15.1.3",
