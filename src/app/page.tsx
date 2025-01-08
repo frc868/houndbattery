@@ -12,6 +12,7 @@ interface Battery {
   status: string;
   lastCheckedIn?: string;
   cycles: number; // Ensure cycles field is included
+  pluggedInTime: number; // Time in milliseconds that the battery has been plugged in
 }
 
 const BatteryScannerPage: React.FC = () => {
@@ -86,6 +87,12 @@ const BatteryScannerPage: React.FC = () => {
   const cycleCounts = batteries.map((battery) => battery.cycles);
   const batteryNames = batteries.map((battery) => battery.name);
 
+  // Calculate the best battery based on the most amount of time plugged in
+  const bestBattery = batteries.reduce((max, battery) => 
+    battery.status === 'IN' && battery.pluggedInTime > max.pluggedInTime ? battery : max, 
+    { name: '', pluggedInTime: 0 }
+  ).name;
+
   return (
     <div className="container">
       <h1>Battery Scanner</h1>
@@ -120,6 +127,10 @@ const BatteryScannerPage: React.FC = () => {
         </table>
       </div>
       <BatteryCycleChart cycles={cycleCounts} batteryNames={batteryNames} /> {/* Add the BatteryCycleChart component */}
+      <div className="best-battery">
+        <h2>Best Battery to Use</h2>
+        <p className="best-battery-name">{bestBattery}</p>
+      </div>
     </div>
   );
 };
