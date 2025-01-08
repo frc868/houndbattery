@@ -1,5 +1,5 @@
 body {
-  background-color: #1e1e1e; /* Dark color for background */
+  background-color: #1e1e1e;
   margin: 0;
   font-family: Arial, sans-serif;
   display: flex;
@@ -7,16 +7,16 @@ body {
   align-items: center;
   height: 100vh;
   flex-direction: column;
-  overflow: hidden; /* Prevent overflow */
+  overflow: hidden;
 }
 
 input[type="text"] {
   width: 300px;
   padding: 10px;
   border-radius: 13px;
-  border: 2px solid rgb(240, 204, 48); /* Gold outline */
-  background-color: #121212; /* Dark background */
-  color: rgb(240, 204, 48); /* Gold text */
+  border: 2px solid rgb(240, 204, 48);
+  background-color: #121212;
+  color: rgb(240, 204, 48);
   margin-bottom: 20px;
   font-size: 16px;
   text-align: center;
@@ -26,9 +26,9 @@ input[type="text"] {
   border-collapse: collapse;
   margin-top: 20px;
   margin-left: -10px;
-  width: 60%; /* Make the table take up the full width of the container */
-  border-radius: 13px; /* Add curved corners to the table */
-  overflow: hidden; /* Ensure the corners are visible */
+  width: 60%;
+  border-radius: 13px;
+  overflow: hidden;
 }
 
 .battery-table th,
@@ -45,24 +45,24 @@ input[type="text"] {
 }
 
 .battery-in {
-  background-color: #32CD32; /* Green color */
+  background-color: #256c25;
 }
 
 .battery-out {
-  background-color: #FF6347; /* Red color */
+  background-color: #672a1f;
 }
 
 h1 {
   text-align: center;
   color: rgb(240, 204, 48);
   position: relative;
-  margin-bottom: 20px; /* Add spacing below the title */
+  margin-bottom: 20px;
 }
 
 h2 {
   text-align: center;
   color: rgb(240, 204, 48);
-  margin-bottom: 20px; /* Add spacing below the time */
+  margin-bottom: 20px;
 }
 
 .container {
@@ -72,42 +72,52 @@ h2 {
 }
 
 .table-container {
-  width: 80%; /* Adjust this value to change the width of the table container */
-  margin-left: 50px; /* Adjust this value to move the table further left or right */
+  width: 80%;
+  margin-left: 50px;
 }
 
 .chart-container {
   position: absolute;
-  bottom: -183px; /* Adjust this value to move the chart further up or down */
-  right: 120px; /* Adjust this value to move the chart further left or right */
-  width: 455px; /* Adjust width as needed */
-  height: 400px; /* Adjust height as needed */
+  bottom: -183px;
+  right: 120px;
+  width: 455px;
+  height: 400px;
 }
 
 .best-battery-title {
   text-align: center;
   color: rgb(240, 204, 48);
-  position: absolute; /* Make the title absolutely positioned */
-  top: 180px; /* Adjust the top value to move the title up or down */
-  right: 225px; /* Adjust the right value to move the title left or right */
+  position: absolute;
+  font-size: 35px;
+  top: 170px;
+  right: 177px;
   z-index: 1;
 }
 
 .best-battery {
   position: absolute;
-  top: 190px; /* Position at the top right */
-  right: 130px; /* Position at the top right */
+  top: 190px;
+  right: 130px;
   width: 250px;
   height: 90px;
   text-align: center;
-  background-color: #121212; /* Match the background color */
+  background-color: #121212;
   padding: 80px;
   border-radius: 10px;
-  border: 2px solid rgb(240, 204, 48); /* Gold outline */
+  border: 2px solid rgb(240, 204, 48);
 }
 
 .best-battery-name {
-  font-size: 48px;
-  color: #32CD32; /* Green color */
+  font-size: 65px;
+  color: #32CD32;
   margin-top: 10px;
+  font-weight: bold;
+  font-family: 'Ariel', sans-serif;
+  text-shadow: 2px 2px 4px rgba (0, 0, 0, 0.5);
+}
+
+.best-battery-timer {
+  font-size: 47px;
+  color: #32CD32;
+  margin-top: -50px;
 }

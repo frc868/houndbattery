@@ -27,7 +27,6 @@ async function toggleBatteryStatus(batteryName: string) {
   }
 }
 
-// Example usage
 (async () => {
   const batteryName = process.argv[2]; // Get battery name from command-line arguments
   if (batteryName) {

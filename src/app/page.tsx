@@ -1,8 +1,8 @@
-'use client'; // To indicate the component is client-side rendered
+'use client';
 
 import React, { useState, useEffect } from 'react';
-import './styles.css'; // Correct the import path to the CSS file
-import BatteryCycleChart from './BatteryCycleChart'; // Import the BatteryCycleChart component
+import './styles.css'; // Make sure you use ./ NOT ../
+import BatteryCycleChart from './BatteryCycleChart';
 
 // Define the type for the battery objects
 interface Battery {
@@ -11,8 +11,8 @@ interface Battery {
   name2: string;
   status: string;
   lastCheckedIn?: string;
-  cycles: number; // Ensure cycles field is included
-  pluggedInTime: number; // Time in milliseconds that the battery has been plugged in
+  cycles: number;
+  pluggedInDuration: number;
 }
 
 const BatteryScannerPage: React.FC = () => {
@@ -21,7 +21,6 @@ const BatteryScannerPage: React.FC = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
-    // Fetch all batteries on component mount
     const fetchBatteries = async () => {
       const response = await fetch('/api/batteries');
       const data = await response.json();
@@ -41,7 +40,6 @@ const BatteryScannerPage: React.FC = () => {
       setCurrentTime(new Date());
     }, 1000);
 
-    // Cleanup interval on component unmount
     return () => clearInterval(intervalId);
   }, []);
 
@@ -51,7 +49,6 @@ const BatteryScannerPage: React.FC = () => {
       return;
     }
 
-    // Make a POST request to the API endpoint to toggle battery IN/OUT
     const response = await fetch('/api/toggleBattery', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -64,7 +61,6 @@ const BatteryScannerPage: React.FC = () => {
         const updatedBatteries = prevBatteries.map((battery) =>
           battery.name2 === updatedBattery.name2 ? updatedBattery : battery
         );
-        // Sort batteries numerically based on their names
         return updatedBatteries.sort((a, b) => {
           const nameA = parseInt(a.name.replace(/\D/g, ''));
           const nameB = parseInt(b.name.replace(/\D/g, ''));
@@ -87,16 +83,45 @@ const BatteryScannerPage: React.FC = () => {
   const cycleCounts = batteries.map((battery) => battery.cycles);
   const batteryNames = batteries.map((battery) => battery.name);
 
-  // Calculate the best battery based on the most amount of time plugged in
-  const bestBattery = batteries.reduce((max, battery) => 
-    battery.status === 'IN' && battery.pluggedInTime > max.pluggedInTime ? battery : max, 
-    { name: '', pluggedInTime: 0 }
-  ).name;
+  // Calculate the best battery based on new criteria
+  const now = new Date().getTime();
+  const batteriesWith5PlusHours = batteries.filter(battery => {
+    const timePluggedIn = battery.status === 'IN' && battery.lastCheckedIn ? now - new Date(battery.lastCheckedIn).getTime() : 0;
+    return timePluggedIn >= 5 * 60 * 60 * 1000; // 5 hours in milliseconds
+  });
+
+  let bestBattery;
+  if (batteriesWith5PlusHours.length > 0) {
+    bestBattery = batteriesWith5PlusHours.reduce((best, battery) => {
+      if (!best) return battery;
+      if (battery.cycles < best.cycles) return battery;
+      if (battery.cycles === best.cycles && battery.pluggedInDuration < best.pluggedInDuration) return battery;
+      return best;
+    }, null as Battery | null);
+  } else {
+    bestBattery = batteries.reduce((best, battery) => {
+      if (!best) return battery;
+      const timePluggedIn = battery.status === 'IN' && battery.lastCheckedIn ? now - new Date(battery.lastCheckedIn).getTime() : 0;
+      const bestTimePluggedIn = best.status === 'IN' && best.lastCheckedIn ? now - new Date(best.lastCheckedIn).getTime() : 0;
+      return timePluggedIn > bestTimePluggedIn ? battery : best;
+    }, null as Battery | null);
+  }
+
+  const bestBatteryTimePluggedIn = bestBattery && bestBattery.lastCheckedIn
+    ? Math.floor((now - new Date(bestBattery.lastCheckedIn).getTime()) / 1000)
+    : 0;
+
+  const formatTime = (seconds: number) => {
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    const s = seconds % 60;
+    return `${h}h ${m}m ${s}s`;
+  };
 
   return (
     <div className="container">
-      <h1>Battery Scanner</h1>
-      <h2 className="best-battery-title">Best Battery to Use</h2> {/* Add the best battery title */}
+      <h1>HoundBattery</h1>
+      <h2 className="best-battery-title">Best Battery to Use</h2>
       <div>
         <h2>{currentTime.toLocaleTimeString()}</h2>
         <input
@@ -127,9 +152,10 @@ const BatteryScannerPage: React.FC = () => {
           </tbody>
         </table>
       </div>
-      <BatteryCycleChart cycles={cycleCounts} batteryNames={batteryNames} /> {/* Add the BatteryCycleChart component */}
+      <BatteryCycleChart cycles={cycleCounts} batteryNames={batteryNames} />
       <div className="best-battery">
-        <p className="best-battery-name">{bestBattery}</p>
+        <p className="best-battery-name">{bestBattery?.name || 'N/A'}</p>
+        <p className="best-battery-timer">{bestBattery ? formatTime(bestBatteryTimePluggedIn) : ''}</p>
       </div>
     </div>
   );
