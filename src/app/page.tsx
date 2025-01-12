@@ -20,6 +20,8 @@ const BatteryScannerPage: React.FC = () => {
   const [batteries, setBatteries] = useState<Battery[]>([]);
   const [currentTime, setCurrentTime] = useState(new Date());
 
+  //
+
   useEffect(() => {
     const fetchBatteries = async () => {
       const response = await fetch('/api/batteries');
