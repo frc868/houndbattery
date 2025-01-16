@@ -19,12 +19,26 @@ const BatteryScannerPage: React.FC = () => {
   const [batteryName, setBatteryName] = useState('');
   const [batteries, setBatteries] = useState<Battery[]>([]);
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [token, setToken] = useState('');
 
   useEffect(() => {
+    const fetchToken = async () => {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/oauth/token`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          clientName: process.env.CLIENT_NAME,
+          clientId: process.env.CLIENT_ID,
+          clientSecret: process.env.CLIENT_SECRET,
+        }),
+      });
+      const data = await response.json();
+      setToken(data.token);
+    };
+
     const fetchBatteries = async () => {
       const response = await fetch('/api/batteries');
       const data = await response.json();
-      // Sort batteries numerically based on their names
       const sortedBatteries = data.sort((a: Battery, b: Battery) => {
         const nameA = parseInt(a.name.replace(/\D/g, ''));
         const nameB = parseInt(b.name.replace(/\D/g, ''));
@@ -33,9 +47,9 @@ const BatteryScannerPage: React.FC = () => {
       setBatteries(sortedBatteries);
     };
 
+    fetchToken();
     fetchBatteries();
 
-    // Update the current time every second
     const intervalId = setInterval(() => {
       setCurrentTime(new Date());
     }, 1000);
@@ -79,11 +93,73 @@ const BatteryScannerPage: React.FC = () => {
     }
   };
 
-  // Extract cycle counts and names for the chart
+  const addBattery = async (name: string) => {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/battery`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify({ name }),
+    });
+    if (response.ok) {
+      const data = await response.json();
+      console.log('Battery added:', data);
+    } else {
+      console.log('Failed to add battery');
+    }
+  };
+
+  const getBattery = async (id: number) => {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/battery/${id}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    if (response.ok) {
+      const data = await response.json();
+      console.log('Battery details:', data);
+    } else {
+      console.log('Failed to get battery details');
+    }
+  };
+
+  const addBatteryLog = async (batteryId: number, voltage: number, enteredAt: string) => {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/batterylog`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify({ batteryId, voltage, enteredAt }),
+    });
+    if (response.ok) {
+      const data = await response.json();
+      console.log('Battery log added:', data);
+    } else {
+      console.log('Failed to add battery log');
+    }
+  };
+
+  const getBatteryLog = async (id: number) => {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/batterylog/${id}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    if (response.ok) {
+      const data = await response.json();
+      console.log('Battery log details:', data);
+    } else {
+      console.log('Failed to get battery log details');
+    }
+  };
+
   const cycleCounts = batteries.map((battery) => battery.cycles);
   const batteryNames = batteries.map((battery) => battery.name);
 
-  // Calculate the best battery based on new criteria
   const now = new Date().getTime();
   const batteriesWith5PlusHours = batteries.filter(battery => {
     const timePluggedIn = battery.status === 'IN' && battery.lastCheckedIn ? now - new Date(battery.lastCheckedIn).getTime() : 0;
