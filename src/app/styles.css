@@ -1,3 +1,4 @@
+/* Background */
 body {
   background-color: #1e1e1e;
   margin: 0;
@@ -10,6 +11,7 @@ body {
   overflow: hidden;
 }
 
+/* Battery Text Box */
 input[type="text"] {
   width: 300px;
   padding: 10px;
@@ -22,15 +24,17 @@ input[type="text"] {
   text-align: center;
 }
 
+/* Battery Table Movement */
 .battery-table {
   border-collapse: collapse;
   margin-top: 20px;
-  margin-left: -10px;
+  margin-left: -15px;
   width: 60%;
   border-radius: 13px;
   overflow: hidden;
 }
 
+/* Battery Table Border */
 .battery-table th,
 .battery-table td {
   border: 1px solid #121212;
@@ -39,19 +43,23 @@ input[type="text"] {
   text-align: center;
 }
 
+/* Battery Table Header */
 .battery-table th {
   background-color: #121212;
   color: rgb(240, 204, 48);
 }
 
+/* Status Color IN */
 .battery-in {
   background-color: #256c25;
 }
 
+/* Status Color OUT */
 .battery-out {
   background-color: #672a1f;
 }
 
+/* HoundBattery title */
 h1 {
   text-align: center;
   color: rgb(240, 204, 48);
@@ -59,23 +67,27 @@ h1 {
   margin-bottom: 20px;
 }
 
+/* Clock Color */
 h2 {
   text-align: center;
   color: rgb(240, 204, 48);
   margin-bottom: 20px;
 }
 
+/* Right Table Position */
 .container {
   text-align: center;
   width: 100%;
   position: relative;
 }
 
+/* Battery Table Width */
 .table-container {
   width: 80%;
   margin-left: 50px;
 }
 
+/* Cycle Chart */
 .chart-container {
   position: absolute;
   bottom: -183px;
@@ -84,6 +96,7 @@ h2 {
   height: 400px;
 }
 
+/* Best Battery Title */
 .best-battery-title {
   text-align: center;
   color: rgb(240, 204, 48);
@@ -94,6 +107,7 @@ h2 {
   z-index: 1;
 }
 
+/* Best Battery Table */
 .best-battery {
   position: absolute;
   top: 190px;
@@ -107,6 +121,7 @@ h2 {
   border: 2px solid rgb(240, 204, 48);
 }
 
+/* Current best battery  */
 .best-battery-name {
   font-size: 65px;
   color: #32CD32;
@@ -116,6 +131,7 @@ h2 {
   text-shadow: 2px 2px 4px rgba (0, 0, 0, 0.5);
 }
 
+/* Battery plugged in duration */
 .best-battery-timer {
   font-size: 39.9px;
   color: #32CD32;
